@@ -1,0 +1,11 @@
+$h:center$ rDox - Documentation $h$
+
+$p$
+This is the documentation for $i:easy create fency docu$rdox$i$ and it's made with rdox!
+$p$
+
+$p$
+rdox contains a build-in markup language and conventions to generate $i:I guess you know that one$html$i$ files from your rdox sources.
+This docu could be used as tutorial and reference for rdox-ing,- 
+$b$enjoy$b$...
+$p$
