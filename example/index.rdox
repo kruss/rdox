@@ -1,11 +1,17 @@
-$h:center$ rDox - Documentation $h$
+$title:center$ rDox - Documentation $title$
 
-$p$
-This is the documentation for $i:easy create fency docu$rdox$i$ and it's made with rdox!
-$p$
+$part:General rdox concepts$ Overview $part$
 
-$p$
-rdox contains a build-in markup language and conventions to generate $i:I guess you know that one$html$i$ files from your rdox sources.
-This docu could be used as tutorial and reference for rdox-ing,- 
-$b$enjoy$b$...
-$p$
+<p>
+This is the docu for $index:easy create fency docu$rdox$index$ and it's made with rdox!
+</p>
+
+<p>
+rdox sources contain build-in commands and conventions next to regular $index:I guess you know that one$html$index$ tags,
+so it's easy to create content if your already familiar with html and just a few additional commands let it fly ;-)
+</p>
+
+<p>
+This docu could be used as tutorial and reference,- 
+<b>enjoy</b>...
+</p>
