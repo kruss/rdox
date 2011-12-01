@@ -7,13 +7,17 @@ class Options
 		@options = {}
 		set_options()
 	end
-
-	def verbose?()
-		return @options[:verbose]
-	end
 	
 	def root()
 		return @options[:root]
+	end
+
+	def continous?()
+		return @options[:continous]
+	end
+	
+	def verbose?()
+		return @options[:verbose]
 	end
 	
 private
@@ -21,6 +25,11 @@ private
 	def set_options()
 		optparse = OptionParser.new do |options|
 			options.banner = $AppName+" <folder> [options ...]"	
+			
+			@options[:continous] = false
+				options.on("-c", "--continous", "Run in continous mode") do
+				@options[:continous] = true
+			end
 			
 			@options[:verbose] = false
 				options.on("-v", "--verbose", "Print additional logging") do
