@@ -1,9 +1,9 @@
 require "rdox/rdox"
 
-class InfoTask < BaseTask
+class BuildTask < BaseTask
   
   def initialize(document)
-    super("info", "print document info", document)
+    super("build", "build the document", document)
   end
   
   def run()

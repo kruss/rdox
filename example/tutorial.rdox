@@ -8,19 +8,18 @@ document.keys[:style] = :plain
 overview = Page.new("Overview")
 overview.keys[:content] = :header
 overview.keys[:description] = "What is rDox"
-overview.tags = [ :tutorial, :reference ]
+overview.tags = [ :reference ]
 document.childs << overview
 
 concepts = Page.new("Concepts")
 concepts.keys[:content] = :body
 concepts.keys[:description] = "rDox concepts and structure"
-concepts.tags = [ :tutorial ]
 document.childs << concepts
 
 example = Page.new("Example")
 example.keys[:content] = :body
 example.keys[:description] = "How to create an rDox document"
-example.tags = [ :tutorial, :example ]
+example.tags = [ :example ]
 example.childs << Page.new("Document")
 example.childs << Page.new("Sources")
 example.childs << Page.new("Output")
@@ -35,7 +34,7 @@ document.childs << setup
 reference = Page.new("Reference")
 reference.keys[:content] = :footer
 reference.keys[:description] = "List of rDoc commands"
-reference.tags = [ :tutorial, :reference ]
+reference.tags = [ :reference ]
 document.childs << reference
 
 RDox.new(document)

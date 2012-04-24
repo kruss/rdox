@@ -12,6 +12,9 @@ class BaseTask
   def init()
       desc @description
       task @name do |t|
+      	if @description != nil then
+      		puts "#{@description}..."
+      	end
         run()
       end
   end
