@@ -1,0 +1,23 @@
+require "rdox/rdox"
+
+document = Document.new("rDox Demo")
+document.description = "A simple rDox demo!"
+document.author = "akira"
+
+chapter1 = Chapter.new("Introduction")
+chapter1.description = "Overview of rDox concepts"
+chapter1.content = "chapter1/overview.rb"
+
+chapter1_page1 = Page.new("rDox Model")
+chapter1_page1.description = "Components of rDox documents"
+chapter1_page1.content = "chapter1/page1.rb"
+
+chapter1.pages \
+	<< chapter1_page1
+
+document.chapters \
+	<< chapter1
+
+rDox.new(document)
+
+
