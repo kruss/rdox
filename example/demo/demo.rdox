@@ -1,23 +1,43 @@
 require "rdox/rdox"
 
-document = Document.new("rDox Demo")
-document.description = "A simple rDox demo!"
-document.author = "akira"
+document = Document.new("rDox Tutorial")
+document.keys[:description] = "Rake based document management"
+document.keys[:author] = "Kevin Russ"
+document.keys[:style] = :plain
 
-chapter1 = Chapter.new("Introduction")
-chapter1.description = "Overview of rDox concepts"
-chapter1.content = "chapter1/overview.rb"
+overview = Page.new("Overview")
+overview.keys[:content] = :header
+overview.keys[:description] = "What is rDox"
+overview.tags = [ :tutorial, :reference ]
+document.childs << overview
 
-chapter1_page1 = Page.new("rDox Model")
-chapter1_page1.description = "Components of rDox documents"
-chapter1_page1.content = "chapter1/page1.rb"
+concepts = Page.new("Concepts")
+concepts.keys[:content] = :body
+concepts.keys[:description] = "rDox concepts and structure"
+concepts.tags = [ :tutorial ]
+document.childs << concepts
 
-chapter1.pages \
-	<< chapter1_page1
+example = Page.new("Example")
+example.keys[:content] = :body
+example.keys[:description] = "How to create an rDox document"
+example.tags = [ :tutorial, :example ]
+example.childs << Page.new("Document")
+example.childs << Page.new("Sources")
+example.childs << Page.new("Output")
+document.childs << example
 
-document.chapters \
-	<< chapter1
+setup = Page.new("Setup")
+setup.keys[:content] = :footer
+setup.keys[:description] = "Installation details"
+setup.tags = [ :reference ]
+document.childs << setup
 
-rDox.new(document)
+reference = Page.new("Reference")
+reference.keys[:content] = :footer
+reference.keys[:description] = "List of rDoc commands"
+reference.tags = [ :tutorial, :reference ]
+document.childs << reference
 
+RDox.new(document)
 
+	
