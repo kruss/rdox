@@ -7,30 +7,47 @@ class BuildTask < BaseTask
   end
   
   def run()
-    dump(@document, 0)
+	setup()
+    check(@document)    
+    build(@document)
   end
   
 private
 
-	def dump(element, level)
-		info = "[ #{element.title} ]"
-		if element.keys[:description] != nil then
-			info << " #{element.keys[:description]}"
-		end
-		if element.tags.size > 0 then
-			info << " => [ #{element.tags.join(", ")} ]"
-		end
-		if level == 0 then
-			puts "#{info}"
-		else
-			intent = ""
-			for i in 1..level do
-				intent << "  |"
-			end
-			puts "#{intent}- #{info}"
+	def setup()
+		if !File.directory?($SOURCE) then
+	  		FileUtils.mkdir_p($SOURCE)
+	  	end
+	    if File.directory?($OUTPUT) then
+	    	FileUtils.rm_rf($OUTPUT)
+	  	end
+	  	FileUtils.mkdir_p($OUTPUT)
+	end
+	
+	def check(element)
+		source = "#{$SOURCE}/#{element.target()}.rdox"
+		if !File.file?(source) then
+			puts "creating: #{source}"
+			File.open(source, 'w') { |f| 
+				f.write("TODO: add content for '#{element.title}'") 
+			}
 		end
 		element.childs.each do |child|
-			dump(child, level+1)
+			check(child)
+		end
+	end
+	
+	def build(element)
+	    source = "#{$SOURCE}/#{element.target()}.rdox"
+		target = "#{$OUTPUT}/#{element.target()}.html"
+		puts "building: #{target}"
+		File.open(target, 'w') { |f| 
+			f.write("<html>") 
+			f.write("<h1>#{element.title}</h1>") 
+			f.write("</html>") 
+		}
+		element.childs.each do |child|
+			build(child)
 		end
 	end
   

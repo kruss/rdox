@@ -5,12 +5,23 @@ class Element
 		@title = title
 		@keys = Hash.new
 		@tags = Array.new
+		@parent = nil
 		@childs = Array.new
 	end
 	attr_accessor :title
 	attr_accessor :keys
 	attr_accessor :tags
+	attr_accessor :parent
 	attr_accessor :childs
+	
+	def target()
+		name = @title.gsub(/\s+/, '-').downcase
+		if @parent != nil then
+			return "#{@parent.target()}_#{name}"
+		else
+			return "#{name}"
+		end
+	end
 	
 	def pack()
 		childs.each do |child|
@@ -25,9 +36,11 @@ class Element
 			 		child.keys[key] = keys[key]
 				end
 			end
+			child.parent = self
 			child.pack()
 		end
 	end
+	
 end
 
 class Document < Element

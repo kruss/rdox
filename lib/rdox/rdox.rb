@@ -5,6 +5,9 @@ require "rdox/tasks/help_task"
 require "rdox/tasks/info_task"
 require "rdox/tasks/build_task"
 
+$SOURCE = "src"
+$OUTPUT = "html"
+
 class RDox
 	include Rake::DSL if defined?(Rake::DSL)
 
