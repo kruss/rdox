@@ -3,6 +3,7 @@ require "rdox/core/model"
 require "rdox/tasks/base_task"
 require "rdox/tasks/help_task"
 require "rdox/tasks/info_task"
+require "rdox/tasks/clean_task"
 require "rdox/tasks/build_task"
 
 $SOURCE = "src"
@@ -14,10 +15,12 @@ class RDox
 	def initialize(document)
 		document.pack()
 		
-	    help = HelpTask.new().init()
-	    task :default => help.name 
+		help = HelpTask.new().init()
+	    info = InfoTask.new(document).init()
+	    task :default => info.name 
 	    
-	    InfoTask.new(document).init()
-	    BuildTask.new(document).init()
+	    clean = CleanTask.new(document).init()
+	    build = BuildTask.new(document).init()
+	    task build.name => [ info.name, clean.name ] 
 	end
 end

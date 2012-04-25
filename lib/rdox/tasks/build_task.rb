@@ -2,19 +2,11 @@ require "rdox/rdox"
 
 class BuildTask < BaseTask
   
-  def initialize(document)
-    super("build", "build the document", document)
-  end
+	def initialize(document)
+    super("build", "build document", document)
+	end
   
-  def run()
-	setup()
-    check(@document)    
-    build(@document)
-  end
-  
-private
-
-	def setup()
+	def run()
 		if !File.directory?($SOURCE) then
 	  		FileUtils.mkdir_p($SOURCE)
 	  	end
@@ -22,12 +14,17 @@ private
 	    	FileUtils.rm_rf($OUTPUT)
 	  	end
 	  	FileUtils.mkdir_p($OUTPUT)
+	  	
+	    check(@document)    
+	    build(@document)
 	end
+  
+private
 	
 	def check(element)
 		source = "#{$SOURCE}/#{element.target()}.rdox"
 		if !File.file?(source) then
-			puts "creating: #{source}"
+			puts "create: #{source}"
 			File.open(source, 'w') { |f| 
 				f.write("TODO: add content for '#{element.title}'") 
 			}
@@ -40,7 +37,7 @@ private
 	def build(element)
 	    source = "#{$SOURCE}/#{element.target()}.rdox"
 		target = "#{$OUTPUT}/#{element.target()}.html"
-		puts "building: #{target}"
+		puts "build: #{target}"
 		File.open(target, 'w') { |f| 
 			f.write("<html>") 
 			f.write("<h1>#{element.title}</h1>") 

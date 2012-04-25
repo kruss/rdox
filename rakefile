@@ -3,8 +3,6 @@ require 'rake/gempackagetask'
 GEM_NAME 	= "rdox"
 GEM_VERSION = "0.1.0"
 
-### GEM ###################################################
-
 spec = Gem::Specification.new do |s|
 	s.name = GEM_NAME
 	s.version = GEM_VERSION
@@ -20,23 +18,52 @@ spec = Gem::Specification.new do |s|
 end
 Rake::GemPackageTask.new(spec) {|pkg|}
 
+desc "Update version"
+task :version do
+    version = "#{GEM_NAME} - #{GEM_VERSION} (#{Time.new.strftime("%Y-%m-%d %H:%M:%S")})"
+    puts "=> #{version}"
+    file = File.open("lib/rdox/generated/version.rb", "w")
+    begin
+      file << "class Version\n\t$VERSION = \"#{version}\"\nend"
+    ensure
+      file.close
+    end
+end  
+task :gem => :version
+
+desc "Update docu"
+task :docu do
+    docu = File.open("README", "r")
+    file = File.open("lib/rdox/generated/docu.rb", "w")
+    begin
+      file << "class Docu\n$DOCU = <<END_OF_MESSAGE\n#{docu.read}\nEND_OF_MESSAGE\nend"
+    ensure
+      docu.close
+      file.close
+    end
+end  
+task :gem => :docu
+
 desc "Install the gem"
 task :install => [:gem] do
-    run_cmd("gem install pkg/#{spec.name}-#{spec.version}.gem")
+    call("gem install pkg/#{spec.name}-#{spec.version}.gem")
 end
 
 desc "Uninstall the gem"
 task :uninstall do
-    run_cmd("gem uninstall #{spec.name}")
+    call("gem uninstall #{spec.name}")
 end
 
-### TOOLS #################################################
+desc "build the tutorial"
+task :example => [:install] do
+    cd "example" do
+    	call("rake build")
+    end
+end
 
-def run_cmd(cmd)
+def call(cmd)
     if !system(cmd) then
     	puts "unable to run: "+cmd
     	exit(-1)
     end
 end
-
-###########################################################

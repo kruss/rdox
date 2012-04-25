@@ -2,23 +2,20 @@ require "rdox/rdox"
 
 class InfoTask < BaseTask
   
-  def initialize(document)
-    super("info", "print document info", document)
-  end
+	def initialize(document)
+    super("info", "print structure", document)
+	end
   
-  def run()
-    dump(@document, 0)
-  end
+	def run()
+		dump(@document, 0)
+	end
   
 private
 
 	def dump(element, level)
 		info = "[ #{element.title} ]"
-		if element.keys[:description] != nil then
-			info << " #{element.keys[:description]}"
-		end
 		if element.tags.size > 0 then
-			info << " => [ #{element.tags.join(", ")} ]"
+			info << " => #{element.tags.join(", ")}"
 		end
 		if level == 0 then
 			puts "#{info}"
