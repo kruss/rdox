@@ -14,23 +14,36 @@ class Element
 	attr_accessor :parent
 	attr_accessor :childs
 	
+	def root?()
+		return @parent == nil
+	end
+	
+	def childs?()
+		return @childs.size > 0
+	end
+	
 	def target()
 		name = @title.gsub(/\s+/, '-').downcase
-		if @parent != nil then
-			return "#{@parent.target()}_#{name}"
-		else
+		if root? then
+			return "index"
+		elsif !root? && @parent.root? then
 			return "#{name}"
+		else
+			return "#{@parent.target()}_#{name}"
 		end
 	end
 	
 	def pack()
+		if root? then
+			@tags = [ :all ]
+		end
 		childs.each do |child|
 			tags.each do |tag|
 				if !child.tags.include?(tag) then
 					child.tags << tag
 				end
 			end
-			child.tags.sort_by { |tag| tag.to_s }
+			child.tags = child.tags.sort_by { |tag| tag.to_s }
 			keys.keys.each do |key|
 				if keys[key] != nil && child.keys[key] == nil then
 			 		child.keys[key] = keys[key]

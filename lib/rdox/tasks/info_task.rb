@@ -17,7 +17,7 @@ private
 		if element.tags.size > 0 then
 			info << " => #{element.tags.join(", ")}"
 		end
-		if level == 0 then
+		if element.root? then
 			puts "#{info}"
 		else
 			intent = ""

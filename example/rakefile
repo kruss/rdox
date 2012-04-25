@@ -21,8 +21,10 @@ example.keys[:content] = :body
 example.keys[:description] = "How to create an rDox document"
 example.tags = [ :example ]
 example.childs << Page.new("Document")
-example.childs << Page.new("Sources")
-example.childs << Page.new("Output")
+example.childs << Page.new("Content")
+example.childs << Page.new("Output") do |page|
+	page.tags = [ :todo ]
+end
 document.childs << example
 
 setup = Page.new("Setup")

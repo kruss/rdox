@@ -1,4 +1,5 @@
 require "rake"
+require "rdox/generated.rb"
 require "rdox/core/model"
 require "rdox/tasks/base_task"
 require "rdox/tasks/info_task"
