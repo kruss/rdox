@@ -3,7 +3,7 @@ require "rdox/rdox"
 class BuildTask < BaseTask
   
 	def initialize(document)
-    super("build", "build document", document)
+    	super("build", "build document", document)
 	end
   
 	def run()

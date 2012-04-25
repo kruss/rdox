@@ -3,10 +3,11 @@ require "rdox/rdox"
 class InfoTask < BaseTask
   
 	def initialize(document)
-    super("info", "print structure", document)
+    	super("info", "print document info (flag: <none>|tags|details)", document, [ :flag ])
 	end
   
 	def run()
+		@flag = @parameters.flag
 		dump(@document, 0)
 	end
   
@@ -14,7 +15,10 @@ private
 
 	def dump(element, level)
 		info = "[ #{element.title} ]"
-		if element.tags.size > 0 then
+		if @flag != nil && @flag.eql?("details") && element.keys[:description] != nil then
+			info << " #{element.keys[:description]}"
+		end
+		if @flag != nil && @flag.eql?("tags") && element.tags.size > 0 then
 			info << " => #{element.tags.join(", ")}"
 		end
 		if element.root? then

@@ -3,7 +3,7 @@ require "rdox/rdox"
 class CleanTask < BaseTask
   
 	def initialize(document)
-    super("clean", "clean output", document)
+    	super("clean", "clean output", document)
 	end
   
 	def run()
