@@ -31,7 +31,7 @@ protected
 
   def info()
   	if @description != nil then
-  		puts ">>> #{@description} <<<"
+  		puts "=> #{@name}"
   	end  
   end
   

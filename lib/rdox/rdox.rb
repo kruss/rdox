@@ -3,6 +3,7 @@ require "rdox/generated.rb"
 require "rdox/core/model"
 require "rdox/tasks/base_task"
 require "rdox/tasks/info_task"
+require "rdox/tasks/check_task"
 require "rdox/tasks/clean_task"
 require "rdox/tasks/build_task"
 
@@ -18,8 +19,10 @@ class RDox
 	    info = InfoTask.new(document).init()
 	    task :default => info.name 
 	    
+	    check = CheckTask.new(document).init()
 	    clean = CleanTask.new(document).init()
+	    
 	    build = BuildTask.new(document).init()
-	    task build.name => [ info.name, clean.name ] 
+	    task build.name => [ info.name, check.name, clean.name ] 
 	end
 end

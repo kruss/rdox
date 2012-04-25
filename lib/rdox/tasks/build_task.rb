@@ -8,32 +8,16 @@ class BuildTask < BaseTask
   
 	def run()
 		@date = Time.new
-		if !File.directory?($SOURCE) then
-	  		FileUtils.mkdir_p($SOURCE)
-	  	end
+		
 	    if File.directory?($OUTPUT) then
 	    	FileUtils.rm_rf($OUTPUT)
 	  	end
 	  	FileUtils.mkdir_p($OUTPUT)
-	  	
-	    check(@document)    
+
 	    build(@document)
 	end
   
 private
-	
-	def check(element)
-		source = "#{$SOURCE}/#{element.target()}.rdox"
-		if !File.file?(source) then
-			puts "create: #{source}"
-			File.open(source, 'w') { |output| 
-				output.write("TODO") 
-			}
-		end
-		element.childs.each do |child|
-			check(child)
-		end
-	end
 	
 	def build(element)
 	    source = "#{$SOURCE}/#{element.target()}.rdox"

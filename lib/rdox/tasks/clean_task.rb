@@ -8,7 +8,6 @@ class CleanTask < BaseTask
   
 	def run()
 		if File.directory?($OUTPUT) then
-			puts "remove: #{$OUTPUT}"
 			FileUtils.rm_rf($OUTPUT)
 		end
 	end

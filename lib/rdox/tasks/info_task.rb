@@ -3,7 +3,7 @@ require "rdox/rdox"
 class InfoTask < BaseTask
   
 	def initialize(document)
-    	super("info", "print document info (flag: <none>|tags|details)", document, [ :flag ])
+    	super("info", "print info (flag: <none>|tags|details)", document, [ :flag ])
 	end
   
 	def run()
