@@ -1,6 +1,6 @@
 require "rdox/rdox"
-require "rdox/generated/version"
-require "rdox/generated/docu"
+require "rdox/generated/version.rb"
+require "rdox/generated/help.rb"
 
 class HelpTask < BaseTask
   
@@ -9,8 +9,8 @@ class HelpTask < BaseTask
 	end
   
 	def run()
-	    puts $VERSION
-		puts $DOCU
+	    puts "\n\t#{$VERSION}\n\n"
+		puts $HELP
 	end
   
 end
