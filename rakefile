@@ -18,31 +18,19 @@ spec = Gem::Specification.new do |s|
 end
 Rake::GemPackageTask.new(spec) {|pkg|}
 
-desc "Update version"
-task :version do
-    version = "#{GEM_NAME} - #{GEM_VERSION} (#{Time.new.strftime("%Y-%m-%d %H:%M:%S")})"
-    puts "=> #{version}"
-    file = File.open("lib/rdox/generated/version.rb", "w")
+desc "Update generated files"
+task :generate do
+    input = File.open("README", "r")
+    output = File.open("lib/rdox/generated.rb", "w")
     begin
-      file << "$VERSION = \"#{version}\""
+      output << "$VERSION = \"#{GEM_NAME} (#{GEM_VERSION}) - #{Time.new.strftime("%Y-%m-%d %H:%M:%S")}\"\r\n"
+      output << "$HELP = <<END_OF_MESSAGE\n#{input.read}\nEND_OF_MESSAGE\r\n"
     ensure
-      file.close
+      output.close
+      input.close
     end
 end  
-task :gem => :version
-
-desc "Update help"
-task :help do
-    docu = File.open("README", "r")
-    file = File.open("lib/rdox/generated/help.rb", "w")
-    begin
-      file << "$HELP = <<END_OF_MESSAGE\n#{docu.read}\nEND_OF_MESSAGE"
-    ensure
-      docu.close
-      file.close
-    end
-end  
-task :gem => :help
+task :gem => :generate
 
 desc "Install the gem"
 task :install => [:gem] do

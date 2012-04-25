@@ -13,7 +13,7 @@ class BaseTask
       desc @description
       task @name do |t|
       	if @description != nil then
-      		puts ">>> #{@description}"
+      		puts ">>> #{@description} <<<"
       	end
         run()
       end
