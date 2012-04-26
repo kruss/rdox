@@ -15,8 +15,8 @@ private
 
 	def dump(element, level)
 		info = "[ #{element.name} ]"
-		if @flag != nil && @flag.eql?("details") && element.keys[:description] != nil then
-			info << " #{element.keys[:description]}"
+		if @flag != nil && @flag.eql?("details") && element.description != nil then
+			info << " #{element.description}"
 		end
 		if @flag != nil && @flag.eql?("tags") && element.tags.size > 0 then
 			info << " => #{element.tags.join(", ")}"

@@ -59,7 +59,12 @@ private
 	def write_map(output, element)
 		output.write("<ol>\r\n")
 		element.childs.each do |child|
-			output.write("<li><a href='#{child.id}.html'>#{child.name}</a></li>\r\n")
+			output.write("<li>")
+			output.write("<b><a href='#{child.id}.html'>#{child.name}</a></b>\r\n")
+			if child.description != nil then
+				output.write(" - #{child.description}\r\n")
+			end
+			output.write("</li>\r\n")
 			if child.childs? then
 				write_map(output, child)
 			end
@@ -94,8 +99,8 @@ private
 		end
 		output.write("</table><hr>\r\n")
 		output.write("<h1>#{element.name}</h1>\r\n") 
-		if element.keys[:description] != nil then
-			output.write("<i>#{element.keys[:description]}</i>\r\n") 
+		if element.description != nil then
+			output.write("<i>#{element.description}</i>\r\n") 
 		end
 		output.write("<hr>\r\n")
 		if element.childs? then
