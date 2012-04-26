@@ -1,4 +1,4 @@
 require "rdox/generated.rb"
 
-puts "\n\t>>> #{$VERSION} <<<\n\n"
+puts "\n\t>>> #{$NAME} (#{$VERSION}) build #{$DATE} <<<\n\n"
 puts $HELP

@@ -38,7 +38,7 @@ private
 
 	def write_header(output, element)
 		output.write("<html><title>#{element.name}</title><head>\r\n") 
-		output.write("<!-- #{$VERSION} //-->\r\n")
+		output.write("<!-- #{$NAME} (#{$VERSION}) build #{$DATE} //-->\r\n")
 		output.write(get_css)
 		output.write("</head><body>\r\n")  
 		output.write("<hr>\r\n")
