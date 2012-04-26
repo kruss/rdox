@@ -42,14 +42,13 @@ class Element
 	end
 	
 	def id()
-		id = name.gsub(/\s+/, '-').downcase
-		if root? then
-			return "index"
-		elsif !root? && @parent.root? then
-			return "#{id}"
-		else
-			return "#{@parent.id}_#{id}"
+		path = [ name.gsub(/\s+/, '-').downcase ]
+		parent = @parent
+		while parent != nil do
+			path << parent.name.gsub(/\s+/, '-').downcase
+			parent = parent.parent
 		end
+		return path.reverse.join("/")
 	end
 	
 	def level()

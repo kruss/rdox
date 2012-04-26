@@ -2,9 +2,24 @@
 class ContentBuilder
 	
 	def build(element)
-	    source = "#{$SOURCE}/#{element.id}.rdox"
-		target = "#{$OUTPUT}/#{element.id}.html"
+		if element.root? then
+			redirect = "#{$OUTPUT}/index.html"
+			puts "build: #{redirect}"
+			File.open(redirect, 'w') { |output| 
+				output.write("<html><head>\r\n")
+				output.write("<meta http-equiv='REFRESH' content='0;url=#{element.id}/index.html'>\r\n")
+				output.write("</head><body>\r\n")
+				output.write("<a href='#{element.id}/index.html'>redirect...</a>\r\n")
+				output.write("</body></html>\r\n")
+			}
+		end
+	
+	    source = "#{$SOURCE}/#{element.id}/content.rdox"
+		target = "#{$OUTPUT}/#{element.id}/index.html"
 		puts "build: #{target}"
+		if !File.directory?(File.dirname(target)) then
+	  		FileUtils.mkdir_p(File.dirname(target))
+	  	end
 		File.open(source, "r") { |input|
 			File.open(target, 'w') { |output| 
 				write_header(output, element)
@@ -18,33 +33,17 @@ class ContentBuilder
 	end
 	
 private
-
-	def build_content(element)
-	    source = "#{$SOURCE}/#{element.id}.rdox"
-		target = "#{$OUTPUT}/#{element.id}.html"
-		puts "build: #{target}"
-		File.open(source, "r") { |input|
-			File.open(target, 'w') { |output| 
-				write_content_header(output, element)
-				output.write(input.read)
-				write_content_footer(output, element, File::mtime(source))		
-			}
-		}
-		element.childs.each do |child|
-			build_content(child)
-		end
-	end
 		
 	def write_header(output, element)
 		output.write("<html><title>#{element.name}</title><head>\r\n") 
 		output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
-		output.write("<link rel='stylesheet' type='text/css' href='style.css'>\r\n")
+		output.write("<link rel='stylesheet' type='text/css' href='#{back_link(element)}style.css'>\r\n")
 		output.write("</head><body>\r\n")  
 		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
 		if element.root? then
 			links = [ 
-				"<a href='index-map.html'>Map</a>", 
-				"<a href='index-print.html' target=_blank>Print</a>" 
+				"<a href='map.html'>Map</a>", 
+				"<a href='print.html' target=_blank>Print</a>" 
 			]
 			output.write("<tr><td align=right>\r\n")
 			output.write("#{links.join(" | ")}\r\n")
@@ -53,7 +52,7 @@ private
 			links = Array.new
 			parent = element.parent
 			while parent != nil do
-				links << "<a href='#{parent.id}.html'>#{parent.name}</a>"
+				links << "<a href='#{back_link(element)}#{parent.id}/index.html'>#{parent.name}</a>"
 				parent = parent.parent
 			end
 			output.write("<tr><td align=left>\r\n")
@@ -69,7 +68,7 @@ private
 		if element.childs? then
 			links = Array.new
 			element.childs.each do |child|
-				links << "<a href='#{child.id}.html'>#{child.name}</a>"
+				links << "<a href='#{back_link(element)}#{child.id}/index.html'>#{child.name}</a>"
 			end
 			output.write("&gt; #{links.join(" / ")}\r\n")
 			output.write("<hr>\r\n")
@@ -84,6 +83,14 @@ private
 		output.write("<td align=right>#{date.strftime("%Y-%m-%d %H:%M:%S")}</td></tr>\r\n")
 		output.write("</table><hr>\r\n")
 		output.write("</body></html>\r\n") 
+	end
+	
+	def back_link(element)
+		back = ""
+		for i in 0..element.level
+			back << "../"
+		end
+		return back
 	end
 
 end

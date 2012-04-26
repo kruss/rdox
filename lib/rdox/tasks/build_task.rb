@@ -8,9 +8,11 @@ class BuildTask < BaseTask
   
 	def run()		
 	    if File.directory?($OUTPUT) then
+	    	puts "remove: #{$OUTPUT}/"
 	    	FileUtils.rm_rf($OUTPUT)
 	  	end
 	  	FileUtils.mkdir_p($OUTPUT)
+	  	puts "create: #{$OUTPUT}/"
 	  	
 		copy_sources()	
 		build_sources()
@@ -19,11 +21,15 @@ class BuildTask < BaseTask
 private
 
 	def copy_sources()
-	  	files = FileList.new("#{$SOURCE}/*.*")
-		files.exclude("#{$SOURCE}/*.rdox")
+	  	files = FileList.new("#{$SOURCE}/**/*.*")
+		files.exclude("#{$SOURCE}/**/*.rdox")
 		files.each do |file|
-			target = "#{$OUTPUT}/#{File.basename(file)}"
-			puts "build: #{target}"
+			path = "#{file}"
+			target = "#{$OUTPUT}#{path[$SOURCE.length, path.length]}"
+			puts "copy: #{target}"
+			if !File.directory?(File.dirname(target)) then
+		  		FileUtils.mkdir_p(File.dirname(target))
+		  	end
 			FileUtils.cp(file, target)
 		end
 	end

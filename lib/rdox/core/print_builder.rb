@@ -2,12 +2,12 @@
 class PrintBuilder
 
 	def build(element)
-		target = "#{$OUTPUT}/#{element.id}-print.html"
+		target = "#{$OUTPUT}/#{element.id}/print.html"
 		puts "build: #{target}"
 		File.open(target, 'w') { |output| 
 			output.write("<html><title>#{element.name}</title><head>\r\n") 
 			output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
-			output.write("<link rel='stylesheet' type='text/css' href='style.css'>\r\n")
+			output.write("<link rel='stylesheet' type='text/css' href='../style.css'>\r\n")
 			output.write("</head><body>\r\n")
 			write_content(output, element)
 			output.write("<hr>#{$GEM} (#{$VERSION})<hr>\r\n")
@@ -18,7 +18,7 @@ class PrintBuilder
 private
 
 	def write_content(output, element)
-		source = "#{$SOURCE}/#{element.id}.rdox"
+		source = "#{$SOURCE}/#{element.id}/content.rdox"
 		header = element.level + 1
 		if header > 4 then
 			header = 4

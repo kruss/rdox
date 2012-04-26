@@ -8,16 +8,17 @@ class CheckTask < BaseTask
   
 	def run()
 		if !File.directory?($SOURCE) then
+			puts "create: #{$SOURCE}/"
 	  		FileUtils.mkdir_p($SOURCE)
 	  	end
 	  	
-		check_css()
-	    check_source(@document)    
+		create_css()
+	    create_sources(@document)    
 	end
   
 private
 	
-	def check_css()
+	def create_css()
 		source = "#{$SOURCE}/style.css"
 		if !File.file?(source) then
 			puts "create: #{source}"
@@ -45,16 +46,19 @@ private
 		return css
 	end
 	
-	def check_source(element)
-		source = "#{$SOURCE}/#{element.id}.rdox"
+	def create_sources(element)
+		source = "#{$SOURCE}/#{element.id}/content.rdox"
 		if !File.file?(source) then
 			puts "create: #{source}"
+			if !File.directory?(File.dirname(source)) then
+		  		FileUtils.mkdir_p(File.dirname(source))
+		  	end
 			File.open(source, 'w') { |output| 
 				output.write("TODO") 
 			}
 		end
 		element.childs.each do |child|
-			check_source(child)
+			create_sources(child)
 		end
 	end
 end
