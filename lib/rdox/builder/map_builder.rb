@@ -1,6 +1,10 @@
 
-class MapBuilder
+class MapBuilder < AbstractBuilder
 
+	def initialize(date)
+		super(date)
+	end
+	
 	def build(element)
 		target = "#{$OUTPUT}/#{element.id}/map.html"
 		puts "build: #{target}"
@@ -8,20 +12,23 @@ class MapBuilder
 	  		FileUtils.mkdir_p(File.dirname(target))
 	  	end
 		File.open(target, 'w') { |output| 
-			output.write("<html><title>#{element.name} (Map)</title><head>\r\n") 
-			output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
-			output.write("<link rel='stylesheet' type='text/css' href='../style.css'>\r\n")
-			output.write("</head><body>\r\n")
-			output.write("<hr>&lt; <a href='../#{element.id}/index.html'>#{element.name}</a><hr>\r\n")
-			output.write("<h1>#{element.name} - Map</h1>\r\n") 
-			output.write("<hr><p>\r\n")
+			write_header(output, element, "Map")
+			write_title(output, element)
+			output.write("<p>\r\n")
 			write_map(output, element)
-			output.write("</p><hr>#{$GEM} (#{$VERSION})<hr>\r\n")
-			output.write("</body></html>\r\n") 
+			output.write("</p>\r\n")
+			write_footer(output, element)
 		}
 	end
 	
 private
+
+	def write_title(output, element)
+		output.write("<a href='../#{element.id}/index.html'>#{element.name}</a>\r\n")
+		output.write("<hr>\r\n")
+		output.write("<h1>#{element.name} - Map</h1>\r\n")
+		output.write("<hr>\r\n")	
+	end
 
 	def write_map(output, element)
 		output.write("<ul>\r\n")

@@ -1,6 +1,6 @@
 require "rdox/rdox"
 
-class BuildTask < BaseTask
+class BuildTask < AbstractTask
   
 	def initialize(document)
     	super("build", "build document", document)
@@ -35,9 +35,10 @@ private
 	end
 	
 	def build_sources()
-	    ContentBuilder.new().build(@document)
-	    MapBuilder.new().build(@document)	
-	    PrintBuilder.new().build(@document)
+		date = Time.new
+	    ContentBuilder.new(date).build(@document)
+	    MapBuilder.new(date).build(@document)	
+	    PrintBuilder.new(date).build(@document)
 	end
   
 end

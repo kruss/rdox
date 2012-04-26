@@ -1,5 +1,9 @@
 
-class ContentBuilder
+class ContentBuilder < AbstractBuilder
+	
+	def initialize(date)
+		super(date)
+	end
 	
 	def build(element)
 		if element.root? then
@@ -23,8 +27,11 @@ class ContentBuilder
 		File.open(source, "r") { |input|
 			File.open(target, 'w') { |output| 
 				write_header(output, element)
+				write_title(output, element)
+				output.write("<p>\r\n")
 				output.write(input.read)
-				write_footer(output, element, File::mtime(source))		
+				output.write("</p>\r\n")
+				write_footer(output, element)		
 			}
 		}
 		element.childs.each do |child|
@@ -34,12 +41,8 @@ class ContentBuilder
 	
 private
 		
-	def write_header(output, element)
-		output.write("<html><title>#{element.name}</title><head>\r\n") 
-		output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
-		output.write("<link rel='stylesheet' type='text/css' href='#{back_link(element)}style.css'>\r\n")
-		output.write("</head><body>\r\n")  
-		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
+	def write_title(output, element)  
+		output.write("<table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
 		if element.root? then
 			links = [ 
 				"<a href='map.html'>Map</a>", 
@@ -56,7 +59,7 @@ private
 				parent = parent.parent
 			end
 			output.write("<tr><td align=left>\r\n")
-			output.write("&lt; #{links.reverse.join(" &lt; ")}\r\n")
+			output.write("#{links.reverse.join(" &lt; ")}\r\n")
 			output.write("</td></tr>\r\n")
 		end
 		output.write("</table><hr>\r\n")
@@ -70,27 +73,9 @@ private
 			element.childs.each do |child|
 				links << "<a href='#{back_link(element)}#{child.id}/index.html'>#{child.name}</a>"
 			end
-			output.write("&gt; #{links.join(" / ")}\r\n")
+			output.write("#{links.join(" / ")}\r\n")
 			output.write("<hr>\r\n")
 		end
-		output.write("<p>\r\n")
-	end
-	
-	def write_footer(output, element, date)
-		output.write("</p>\r\n")
-		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
-		output.write("<tr><td align=left>#{element.author}</td>\r\n")
-		output.write("<td align=right>#{date.strftime("%Y-%m-%d %H:%M:%S")}</td></tr>\r\n")
-		output.write("</table><hr>\r\n")
-		output.write("</body></html>\r\n") 
-	end
-	
-	def back_link(element)
-		back = ""
-		for i in 0..element.level
-			back << "../"
-		end
-		return back
 	end
 
 end

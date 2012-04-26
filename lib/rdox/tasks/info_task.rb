@@ -1,6 +1,6 @@
 require "rdox/rdox"
 
-class InfoTask < BaseTask
+class InfoTask < AbstractTask
   
 	def initialize(document)
     	super("info", "print info (flag: <none>|tags|details)", document, [ :flag ])

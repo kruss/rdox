@@ -1,6 +1,6 @@
 require "rdox/rdox"
 
-class BaseTask
+class AbstractTask
   include Rake::DSL if defined?(Rake::DSL)
   
   def initialize(name, description, document, options = nil)
