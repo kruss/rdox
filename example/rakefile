@@ -1,24 +1,19 @@
 require "rdox/rdox"
 
-document = Document.new("rDox Tutorial")
-document.keys[:description] = "Rake based document management"
-document.keys[:author] = "Kevin Russ"
+document = Document.new("rDox Tutorial", "Rake based document management", "Kevin Russ")
 document.keys[:style] = :plain
 
-overview = Page.new("Overview")
+overview = Page.new("Overview", "What is rDox")
 overview.keys[:content] = :header
-overview.keys[:description] = "What is rDox"
 overview.tags = [ :reference ]
 document.childs << overview
 
-concepts = Page.new("Concepts")
+concepts = Page.new("Concepts", "How does rDox work")
 concepts.keys[:content] = :body
-concepts.keys[:description] = "rDox concepts and structure"
 document.childs << concepts
 
-example = Page.new("Example")
+example = Page.new("Example", "How to create a rDox document")
 example.keys[:content] = :body
-example.keys[:description] = "How to create an rDox document"
 example.tags = [ :example ]
 example.childs << Page.new("Document")
 example.childs << Page.new("Content")
@@ -27,15 +22,13 @@ example.childs << Page.new("Output") do |page|
 end
 document.childs << example
 
-setup = Page.new("Setup")
+setup = Page.new("Setup", "Installation details")
 setup.keys[:content] = :footer
-setup.keys[:description] = "Installation details"
 setup.tags = [ :reference ]
 document.childs << setup
 
-reference = Page.new("Reference")
+reference = Page.new("Reference", "List of commands")
 reference.keys[:content] = :footer
-reference.keys[:description] = "List of rDoc commands"
 reference.tags = [ :reference ]
 document.childs << reference
 

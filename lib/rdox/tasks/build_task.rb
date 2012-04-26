@@ -20,8 +20,8 @@ class BuildTask < BaseTask
 private
 	
 	def build(element)
-	    source = "#{$SOURCE}/#{element.target()}.rdox"
-		target = "#{$OUTPUT}/#{element.target()}.html"
+	    source = "#{$SOURCE}/#{element.id}.rdox"
+		target = "#{$OUTPUT}/#{element.id}.html"
 		puts "build: #{target}"
 		File.open(source, "r") { |input|
 			File.open(target, 'w') { |output| 
@@ -38,7 +38,7 @@ private
 private
 
 	def write_header(output, element)
-		output.write("<html><title>#{element.title}</title><head>\r\n") 
+		output.write("<html><title>#{element.name}</title><head>\r\n") 
 		output.write("<!-- #{$VERSION} //-->\r\n")
 		output.write(get_css)
 		output.write("</head><body>\r\n")  
@@ -47,13 +47,13 @@ private
 			links = Array.new
 			parent = element.parent
 			while parent != nil do
-				links << "<a href='#{parent.target()}.html'>#{parent.title}</a>"
+				links << "<a href='#{parent.id}.html'>#{parent.name}</a>"
 				parent = parent.parent
 			end
 			output.write("#{links.reverse.join(" &lt; ")}\r\n")
 			output.write("<hr>\r\n")
 		end
-		output.write("<h1>#{element.title}</h1>\r\n") 
+		output.write("<h1>#{element.name}</h1>\r\n") 
 		if element.keys[:description] != nil then
 			output.write("<i>#{element.keys[:description]}</i>\r\n") 
 		end
@@ -61,7 +61,7 @@ private
 		if element.childs? then
 			links = Array.new
 			element.childs.each do |child|
-				links << "<a href='#{child.target()}.html'>#{child.title}</a>"
+				links << "<a href='#{child.id}.html'>#{child.name}</a>"
 			end
 			output.write("#{links.join(" / ")}\r\n")
 			output.write("<hr>\r\n")

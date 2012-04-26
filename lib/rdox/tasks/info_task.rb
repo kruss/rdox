@@ -14,7 +14,7 @@ class InfoTask < BaseTask
 private
 
 	def dump(element, level)
-		info = "[ #{element.title} ]"
+		info = "[ #{element.name} ]"
 		if @flag != nil && @flag.eql?("details") && element.keys[:description] != nil then
 			info << " #{element.keys[:description]}"
 		end

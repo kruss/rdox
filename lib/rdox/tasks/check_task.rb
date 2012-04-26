@@ -18,7 +18,7 @@ class CheckTask < BaseTask
 private
 	
 	def check(element)
-		source = "#{$SOURCE}/#{element.target()}.rdox"
+		source = "#{$SOURCE}/#{element.id}.rdox"
 		if !File.file?(source) then
 			puts "create: #{source}"
 			File.open(source, 'w') { |output| 
