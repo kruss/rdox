@@ -5,7 +5,7 @@ class MapBuilder
 		target = "#{$OUTPUT}/#{element.id}-map.html"
 		puts "build: #{target}"
 		File.open(target, 'w') { |output| 
-			output.write("<html><title>#{element.name} - Map</title><head>\r\n") 
+			output.write("<html><title>#{element.name} (Map)</title><head>\r\n") 
 			output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
 			output.write("<link rel='stylesheet' type='text/css' href='style.css'>\r\n")
 			output.write("</head><body>\r\n")

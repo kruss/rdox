@@ -52,6 +52,16 @@ class Element
 		end
 	end
 	
+	def level()
+		level = 0
+		parent = @parent
+		while parent != nil do
+			level = level + 1
+			parent = parent.parent
+		end
+		return level
+	end
+	
 	def pack()
 		childs.each do |child|
 			tags.each do |tag|

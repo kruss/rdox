@@ -31,6 +31,7 @@ private
 	def build_sources()
 	    ContentBuilder.new().build(@document)
 	    MapBuilder.new().build(@document)	
+	    PrintBuilder.new().build(@document)
 	end
   
 end
