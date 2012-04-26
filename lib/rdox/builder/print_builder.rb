@@ -13,7 +13,7 @@ class PrintBuilder < AbstractBuilder
 	  	end
 		File.open(target, 'w') { |output| 
 			write_header(output, element, "Print")
-			write_content(output, element, true)
+			write_content(output, element)
 			write_footer(output, element) 
 		}
 	end
@@ -25,15 +25,12 @@ private
 	
 	def write_content(output, element, first=false)
 		source = "#{$SOURCE}/#{element.id}/content.rdox"
-		if !first then
+		if !element.root? then
 			output.write("<hr>\r\n")
 		end
 		output.write("<table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
-		if first then
-			output.write("<tr><td align=left><h1>#{element.index} #{element.name}</h1></td>\r\n")
-		else
-			output.write("<tr><td align=left><h2>#{element.index} #{element.name}</h2></td>\r\n")
-		end
+		header = element.level < 4 ? element.level + 1 : 4
+		output.write("<tr><td align=left><h#{header}>#{element.index} #{element.name}</h#{header}></td>\r\n")
 		if element.description != nil then
 			output.write("<td align=right valign=top><i>#{element.description}</i></td>\r\n")
 		end
