@@ -13,18 +13,17 @@ class PrintBuilder
 			output.write("<hr>#{$GEM} (#{$VERSION})<hr>\r\n")
 			output.write("</body></html>\r\n") 
 		}
+		element.childs.each do |child|
+			build(child)
+		end
 	end
 	
 private
 
 	def write_content(output, element)
 		source = "#{$SOURCE}/#{element.id}/content.rdox"
-		header = element.level + 1
-		if header > 4 then
-			header = 4
-		end
 		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
-		output.write("<tr><td align=left><h#{header}>#{element.name}</h#{header}></td>\r\n")
+		output.write("<tr><td align=left><h2>#{element.name}</h2></td>\r\n")
 		if element.description != nil then
 			output.write("<td align=right valign=top><i>#{element.description}</i></td>\r\n")
 		end
