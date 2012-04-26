@@ -33,6 +33,10 @@ class Element
 		return @keys[:author]
 	end
 	
+	def todo?
+		return @tags.include[:todo]
+	end
+	
 	def root?()
 		return @parent == nil
 	end
@@ -59,6 +63,18 @@ class Element
 			parent = parent.parent
 		end
 		return level
+	end
+	
+	def index()
+		index = Array.new
+		current = self
+		parent = @parent
+		while parent != nil do
+			index << parent.childs.index(current) + 1
+			current = parent
+			parent = parent.parent
+		end
+		return "#{index.reverse.join(".")}"
 	end
 	
 	def pack()

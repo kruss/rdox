@@ -4,6 +4,9 @@ class PrintBuilder
 	def build(element)
 		target = "#{$OUTPUT}/#{element.id}/print.html"
 		puts "build: #{target}"
+		if !File.directory?(File.dirname(target)) then
+	  		FileUtils.mkdir_p(File.dirname(target))
+	  	end
 		File.open(target, 'w') { |output| 
 			output.write("<html><title>#{element.name}</title><head>\r\n") 
 			output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
@@ -23,7 +26,7 @@ private
 	def write_content(output, element)
 		source = "#{$SOURCE}/#{element.id}/content.rdox"
 		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
-		output.write("<tr><td align=left><h2>#{element.name}</h2></td>\r\n")
+		output.write("<tr><td align=left><h2>#{element.index} #{element.name}</h2></td>\r\n")
 		if element.description != nil then
 			output.write("<td align=right valign=top><i>#{element.description}</i></td>\r\n")
 		end

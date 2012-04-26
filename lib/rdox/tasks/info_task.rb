@@ -14,7 +14,12 @@ class InfoTask < BaseTask
 private
 
 	def dump(element, level)
-		info = "[ #{element.name} ]"
+		info = ""
+		if element.root? then
+			info << "[ #{element.name} ]"
+		else
+			info << "#{element.index} [ #{element.name} ]"
+		end
 		if @flag != nil && @flag.eql?("details") && element.description != nil then
 			info << " #{element.description}"
 		end

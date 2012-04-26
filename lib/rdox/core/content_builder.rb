@@ -60,7 +60,7 @@ private
 			output.write("</td></tr>\r\n")
 		end
 		output.write("</table><hr>\r\n")
-		output.write("<h1>#{element.name}</h1>\r\n") 
+		output.write("<h1>#{element.index} #{element.name}</h1>\r\n") 
 		if element.description != nil then
 			output.write("<i>#{element.description}</i>\r\n") 
 		end

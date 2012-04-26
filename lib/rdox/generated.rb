@@ -1,6 +1,6 @@
 $GEM = "rdox"
 $VERSION = "0.1.0"
-$DATE = "2012-04-26 18:53:25"
+$DATE = "2012-04-26 22:08:55"
 $HELP = <<END_OF_MESSAGE
 rdox is a gem for rake based documents
 
