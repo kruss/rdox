@@ -12,46 +12,87 @@ class BuildTask < BaseTask
 	  	end
 	  	FileUtils.mkdir_p($OUTPUT)
 
-	    build(@document)
+	    build_content(@document)
+	    build_map(@document)
+	    #build_print(@document)
 	end
   
 private
 	
-	def build(element)
+	def build_content(element)
 	    source = "#{$SOURCE}/#{element.id}.rdox"
 		target = "#{$OUTPUT}/#{element.id}.html"
 		puts "build: #{target}"
-		date = File::mtime(source)
 		File.open(source, "r") { |input|
 			File.open(target, 'w') { |output| 
-				write_header(output, element)
-				write_body(input, output)
-				write_footer(output, element, date)
+				write_content_header(output, element)
+				output.write(input.read)
+				write_content_footer(output, element, File::mtime(source))		
 			}
 		}
 		element.childs.each do |child|
-			build(child)
+			build_content(child)
 		end
 	end
 	
-private
-
-	def write_header(output, element)
+	def build_map(element)
+		target = "#{$OUTPUT}/#{element.id}-map.html"
+		puts "build: #{target}"
+		File.open(target, 'w') { |output| 
+			output.write("<html><title>#{element.name} - Map</title><head>\r\n") 
+			output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
+			output.write(get_css)
+			output.write("</head><body>\r\n")
+			output.write("<hr>&lt; <a href='#{element.id}.html'>#{element.name}</a><hr>\r\n")
+			output.write("<h1>#{element.name} - Map</h1>\r\n") 
+			output.write("<hr><p>\r\n")
+			if element.childs? then
+				write_map(output, element)
+			else
+				output.write("<i>empty</i>\r\n")
+			end
+			output.write("</p><hr>#{$GEM} (#{$VERSION})<hr>\r\n")
+			output.write("</body></html>\r\n") 
+		}
+	end
+	
+	def write_map(output, element)
+		output.write("<ol>\r\n")
+		element.childs.each do |child|
+			output.write("<li><a href='#{child.id}.html'>#{child.name}</a></li>\r\n")
+			if child.childs? then
+				write_map(output, child)
+			end
+		end
+		output.write("</ol>\r\n")
+	end
+		
+	def write_content_header(output, element)
 		output.write("<html><title>#{element.name}</title><head>\r\n") 
 		output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
 		output.write(get_css)
-		output.write("</head><body><a name='top'>\r\n")  
-		output.write("<hr>\r\n")
-		if !element.root? then
+		output.write("</head><body>\r\n")  
+		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
+		if element.root? then
+			links = [ 
+				"<a href='index-map.html'>Map</a>", 
+				"<a href='index-print.html' target=_blank>Print</a>" 
+			]
+			output.write("<tr><td align=right>\r\n")
+			output.write("#{links.join(" | ")}\r\n")
+			output.write("</td></tr>\r\n")
+		else
 			links = Array.new
 			parent = element.parent
 			while parent != nil do
 				links << "<a href='#{parent.id}.html'>#{parent.name}</a>"
 				parent = parent.parent
 			end
-			output.write("#{links.reverse.join(" &lt; ")}\r\n")
-			output.write("<hr>\r\n")
+			output.write("<tr><td align=left>\r\n")
+			output.write("&lt; #{links.reverse.join(" &lt; ")}\r\n")
+			output.write("</td></tr>\r\n")
 		end
+		output.write("</table><hr>\r\n")
 		output.write("<h1>#{element.name}</h1>\r\n") 
 		if element.keys[:description] != nil then
 			output.write("<i>#{element.keys[:description]}</i>\r\n") 
@@ -62,21 +103,17 @@ private
 			element.childs.each do |child|
 				links << "<a href='#{child.id}.html'>#{child.name}</a>"
 			end
-			output.write("#{links.join(" / ")}\r\n")
+			output.write("&gt; #{links.join(" / ")}\r\n")
 			output.write("<hr>\r\n")
 		end
-	end
-	
-	def write_body(input, output)
 		output.write("<p>\r\n")
-		output.write(input.read)
-		output.write("</p>\r\n")
 	end
 	
-	def write_footer(output, element, date)
+	def write_content_footer(output, element, date)
+		output.write("</p>\r\n")
 		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
-		output.write("<tr><td align=left>#{element.author} - #{date.strftime("%Y-%m-%d %H:%M:%S")}</td>\r\n")
-		output.write("<td align=right>#{$GEM} (#{$VERSION}) <a href='#top'>-^</a></td></tr>\r\n")
+		output.write("<tr><td align=left>#{element.author}</td>\r\n")
+		output.write("<td align=right>#{date.strftime("%Y-%m-%d %H:%M:%S")}</td></tr>\r\n")
 		output.write("</table><hr>\r\n")
 		output.write("</body></html>\r\n") 
 	end
