@@ -6,9 +6,7 @@ class BuildTask < BaseTask
     	super("build", "build document", document)
 	end
   
-	def run()
-		@date = Time.new
-		
+	def run()		
 	    if File.directory?($OUTPUT) then
 	    	FileUtils.rm_rf($OUTPUT)
 	  	end
@@ -23,11 +21,12 @@ private
 	    source = "#{$SOURCE}/#{element.id}.rdox"
 		target = "#{$OUTPUT}/#{element.id}.html"
 		puts "build: #{target}"
+		date = File::mtime(source)
 		File.open(source, "r") { |input|
 			File.open(target, 'w') { |output| 
 				write_header(output, element)
 				write_body(input, output)
-				write_footer(output, element)
+				write_footer(output, element, date)
 			}
 		}
 		element.childs.each do |child|
@@ -74,8 +73,8 @@ private
 		output.write("</p>\r\n")
 	end
 	
-	def write_footer(output, element)
-		output.write("<hr>rDox - #{Time.new.strftime("%Y-%m-%d %H:%M:%S")}<hr>\r\n")
+	def write_footer(output, element, date)
+		output.write("<hr>rDox - #{date.strftime("%Y-%m-%d %H:%M:%S")}<hr>\r\n")
 		output.write("</body></html>\r\n") 
 	end
 	
