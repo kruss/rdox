@@ -1,6 +1,8 @@
 require "rake"
 require "rdox/generated.rb"
 require "rdox/core/model"
+require "rdox/core/content_builder"
+require "rdox/core/map_builder"
 require "rdox/tasks/base_task"
 require "rdox/tasks/info_task"
 require "rdox/tasks/check_task"
