@@ -38,9 +38,9 @@ private
 
 	def write_header(output, element)
 		output.write("<html><title>#{element.name}</title><head>\r\n") 
-		output.write("<!-- #{$NAME} (#{$VERSION}) build #{$DATE} //-->\r\n")
+		output.write("<!-- #{$GEM} (#{$VERSION}) build #{$DATE} //-->\r\n")
 		output.write(get_css)
-		output.write("</head><body>\r\n")  
+		output.write("</head><body><a name='top'>\r\n")  
 		output.write("<hr>\r\n")
 		if !element.root? then
 			links = Array.new
@@ -74,7 +74,10 @@ private
 	end
 	
 	def write_footer(output, element, date)
-		output.write("<hr>rDox - #{date.strftime("%Y-%m-%d %H:%M:%S")}<hr>\r\n")
+		output.write("<hr><table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
+		output.write("<tr><td align=left>#{element.author} - #{date.strftime("%Y-%m-%d %H:%M:%S")}</td>\r\n")
+		output.write("<td align=right>#{$GEM} (#{$VERSION}) <a href='#top'>-^</a></td></tr>\r\n")
+		output.write("</table><hr>\r\n")
 		output.write("</body></html>\r\n") 
 	end
 	

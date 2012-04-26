@@ -23,7 +23,7 @@ task :generate do
     input = File.open("README", "r")
     output = File.open("lib/rdox/generated.rb", "w")
     begin
-      output << "$NAME = \"#{GEM_NAME}\"\r\n"
+      output << "$GEM = \"#{GEM_NAME}\"\r\n"
       output << "$VERSION = \"#{GEM_VERSION}\"\r\n"
       output << "$DATE = \"#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}\"\r\n"
       output << "$HELP = <<END_OF_MESSAGE\n#{input.read}\nEND_OF_MESSAGE\r\n"
