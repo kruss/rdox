@@ -1,36 +1,41 @@
 require "rdox/rdox"
 
-document = Document.new("rDox Tutorial", "Rake based document management", "Kevin Russ")
-document.keys[:style] = :plain
+document = Document.new("rdox Tutorial", 
+	:description => "Rake based document management", 
+	:author => "Kevin Russ"
+)
 
-overview = Page.new("Overview", "What is rDox")
-overview.keys[:content] = :header
-overview.tags = [ :reference ]
-document.childs << overview
+document.childs << Page.new("Overview", 
+	:description => "What is rdox",
+	:tags => [ :basics ]
+)
 
-concepts = Page.new("Concepts", "How does rDox work")
-concepts.keys[:content] = :body
-document.childs << concepts
-
-example = Page.new("Example", "How to create a rDox document")
-example.keys[:content] = :body
-example.tags = [ :example ]
-example.childs << Page.new("Document")
-example.childs << Page.new("Content")
-example.childs << Page.new("Output") do |page|
-	page.tags = [ :todo ]
+document.childs << Page.new("Concepts", 
+	:description => "How does rdox work",
+	:tags => [ :advanced ]
+) do |page|
+	page.childs << Page.new("Layout")
+	page.childs << Page.new("Tasks") do |page|
+		page.childs << Page.new("Info-Task")
+		page.childs << Page.new("Clean-Task")
+		page.childs << Page.new("Check-Task")
+		page.childs << Page.new("Build-Task")
+	end
+	page.childs << Page.new("Tags")
 end
-document.childs << example
 
-setup = Page.new("Setup", "Installation details")
-setup.keys[:content] = :footer
-setup.tags = [ :reference ]
-document.childs << setup
+document.childs << Page.new("Example", 
+	:description => "Using the rdox wizard",
+	:tags => [ :basics ]
+)
 
-reference = Page.new("Reference", "List of commands")
-reference.keys[:content] = :footer
-reference.tags = [ :reference ]
-document.childs << reference
+document.childs << Page.new("Reference", 
+	:description => "rdox Reference",
+	:tags => [ :advanced, :todo ]
+) do |page|
+	page.childs << Page.new("Setup")
+	page.childs << Page.new("Commands")
+end
 
 RDox.new(document, File.dirname(__FILE__))
 

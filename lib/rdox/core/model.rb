@@ -1,20 +1,30 @@
 
 class Element 
 
-	def initialize(name, description = nil, author=nil)
+	def initialize(name, options, &block)
 		@parent = nil
 		@childs = Array.new
 		
 		@keys = Hash.new
 		@keys[:name] = name
-		if description != nil then
-			@keys[:description] = description
+		if options[:description] != nil then
+			@keys[:description] = options[:description]
 		end
-		if author != nil then
-			@keys[:author] = author
+		if options[:author] != nil then
+			@keys[:author] = options[:author]
+		end		
+		
+		if root? then
+			@tags = [ :all ]		
+		elsif options[:tags] != nil then
+			@tags = options[:tags]
+		else
+			@tags = Array.new
 		end
 		
-		@tags = [ :all ]
+		if block != nil then
+			block.call(self)
+		end
 	end
 	attr_accessor :parent
 	attr_accessor :childs
@@ -99,14 +109,14 @@ end
 
 class Document < Element
 
-	def initialize(name, description = nil, author=nil)
-		super(name, description, author)
+	def initialize(name, options = {})
+		super(name, options)
 	end
 end
 
 class Page < Element
 
-	def initialize(name, description = nil, author=nil)
-		super(name, description, author)
+	def initialize(name, options = {})
+		super(name, options)
 	end
 end
