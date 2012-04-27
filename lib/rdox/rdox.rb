@@ -1,6 +1,7 @@
 require "rake"
 require "rdox/generated.rb"
 require "rdox/core/model"
+require "rdox/core/model_printer"
 require "rdox/tasks/abstract_task"
 require "rdox/tasks/info_task"
 require "rdox/tasks/clean_task"

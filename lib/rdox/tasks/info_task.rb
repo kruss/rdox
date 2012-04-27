@@ -7,37 +7,13 @@ class InfoTask < AbstractTask
 	end
   
 	def run()
-		@show_tags = @args.mode != nil && @args.mode.eql?("tags") ? true : false
-		@show_details = @args.mode != nil && @args.mode.eql?("details") ? true : false
-
-		dump(@document, 0)
-	end
-  
-private
-
-	def dump(element, level)
-		info = ""
-		if element.root? then
-			info << "[ #{element.name} ]"
+		printer = ModelPrinter.new(@document)
+		if @args.mode != nil && @args.mode.eql?("tags") then
+			printer.print(:tags)
+		elsif @args.mode != nil && @args.mode.eql?("details") then
+			printer.print(:details)
 		else
-			info << "#{element.index} [ #{element.name} ]"
-		end
-		if @show_tags && element.tags.size > 0 then
-			info << " => #{element.tags.join(", ")}"
-		elsif @show_details && element.description != nil then
-			info << " #{element.description}"
-		end
-		if element.root? then
-			puts "#{info}"
-		else
-			intent = ""
-			for i in 1..level do
-				intent << "  |"
-			end
-			puts "#{intent}- #{info}"
-		end
-		element.childs.each do |child|
-			dump(child, level+1)
+			printer.print()
 		end
 	end
   
