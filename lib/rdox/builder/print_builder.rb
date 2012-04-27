@@ -1,12 +1,12 @@
 
 class PrintBuilder < AbstractBuilder
 
-	def initialize(date)
-		super(date)
+	def initialize(date, folder)
+		super(date, folder)
 	end
 	
 	def build(element)
-		target = "#{$OUTPUT}/#{element.id}/print.html"
+		target = "#{@folder}/#{element.id}/print.html"
 		puts "build: #{target}"
 		if !File.directory?(File.dirname(target)) then
 	  		FileUtils.mkdir_p(File.dirname(target))

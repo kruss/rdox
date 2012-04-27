@@ -1,25 +1,17 @@
 
 class ContentBuilder < AbstractBuilder
 	
-	def initialize(date)
-		super(date)
+	def initialize(date, folder)
+		super(date, folder)
 	end
 	
 	def build(element)
 		if element.root? then
-			redirect = "#{$OUTPUT}/index.html"
-			puts "build: #{redirect}"
-			File.open(redirect, 'w') { |output| 
-				output.write("<html><head>\r\n")
-				output.write("<meta http-equiv='REFRESH' content='0;url=#{element.id}/index.html'>\r\n")
-				output.write("</head><body>\r\n")
-				output.write("<a href='#{element.id}/index.html'>redirect...</a>\r\n")
-				output.write("</body></html>\r\n")
-			}
+			create_index(element)
 		end
 	
 	    source = "#{$SOURCE}/#{element.id}/content.rdox"
-		target = "#{$OUTPUT}/#{element.id}/index.html"
+		target = "#{@folder}/#{element.id}/index.html"
 		puts "build: #{target}"
 		if !File.directory?(File.dirname(target)) then
 	  		FileUtils.mkdir_p(File.dirname(target))
@@ -40,7 +32,19 @@ class ContentBuilder < AbstractBuilder
 	end
 	
 private
-		
+	
+	def create_index(element)
+		target = "#{@folder}/index.html"
+		puts "build: #{target}"
+		File.open(target, 'w') { |output| 
+			output.write("<html><head>\r\n")
+			output.write("<meta http-equiv='REFRESH' content='0;url=#{element.id}/index.html'>\r\n")
+			output.write("</head><body>\r\n")
+			output.write("<a href='#{element.id}/index.html'>redirect...</a>\r\n")
+			output.write("</body></html>\r\n")
+		}
+	end
+	
 	def write_title(output, element)  
 		output.write("<table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
 		if element.root? then

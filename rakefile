@@ -47,7 +47,7 @@ end
 desc "build the tutorial"
 task :example => [:install] do
     cd "example" do
-    	call("rake build")
+    	call("rake build[release]")
     end
 end
 

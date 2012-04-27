@@ -3,11 +3,12 @@ require "rdox/rdox"
 class InfoTask < AbstractTask
   
 	def initialize(document)
-    	super("info", "print info (flag: <none>|tags|details)", document, [ :flag ])
+    	super("info", "print info (details=[none]|tags|verbose)", document, [ :details ])
 	end
   
 	def run()
-		@flag = @parameters.flag
+		@show_tags = @parameters.details != nil && @parameters.details.eql?("tags") ? true : false
+		@show_description = @parameters.details != nil && @parameters.details.eql?("verbose") ? true : false
 		dump(@document, 0)
 	end
   
@@ -20,11 +21,11 @@ private
 		else
 			info << "#{element.index} [ #{element.name} ]"
 		end
-		if @flag != nil && @flag.eql?("details") && element.description != nil then
-			info << " #{element.description}"
-		end
-		if @flag != nil && @flag.eql?("tags") && element.tags.size > 0 then
+		if @show_tags && element.tags.size > 0 then
 			info << " => #{element.tags.join(", ")}"
+		end
+		if @show_description && element.description != nil then
+			info << " #{element.description}"
 		end
 		if element.root? then
 			puts "#{info}"

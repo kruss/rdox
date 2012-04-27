@@ -1,8 +1,9 @@
 
 class AbstractBuilder
 
-	def initialize(date)
+	def initialize(date, folder)
 		@date = date
+		@folder = folder
 	end
 	
 	def build(element)

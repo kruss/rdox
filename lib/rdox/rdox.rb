@@ -12,7 +12,7 @@ require "rdox/builder/map_builder"
 require "rdox/builder/print_builder"
 
 $SOURCE = "src"
-$OUTPUT = "html"
+$OUTPUT = "out"
 
 class RDox
 	include Rake::DSL if defined?(Rake::DSL)
