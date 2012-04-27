@@ -7,7 +7,8 @@ class BuildTask < AbstractTask
 	end
   
 	def run()		
-	  	@release = @parameters.mode != nil && @parameters.mode.eql?("release") ? true : false
+	  	@release = @args.mode != nil && @args.mode.eql?("release") ? true : false
+	  	
 		copy_sources()	
 		build_sources()
 	end

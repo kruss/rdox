@@ -8,7 +8,7 @@ class AbstractTask
     @description = description
     @document = document
     @options = options
-    @parameters = nil
+    @args = nil
   end
   
   def init()
@@ -20,7 +20,7 @@ class AbstractTask
 	      end
       else
  	      task @name, @options do |t, args|
- 	        @parameters = args
+ 	        @args = args
 			info()
 	        run()
 	      end     

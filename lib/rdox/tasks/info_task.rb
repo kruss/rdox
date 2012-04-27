@@ -7,8 +7,9 @@ class InfoTask < AbstractTask
 	end
   
 	def run()
-		@show_tags = @parameters.details != nil && @parameters.details.eql?("tags") ? true : false
-		@show_description = @parameters.details != nil && @parameters.details.eql?("verbose") ? true : false
+		@show_tags = @args.details != nil && @args.details.eql?("tags") ? true : false
+		@show_description = @args.details != nil && @args.details.eql?("verbose") ? true : false
+		
 		dump(@document, 0)
 	end
   
