@@ -2,8 +2,8 @@ require "rdox/rdox"
 
 class CleanTask < AbstractTask
   
-	def initialize(document)
-    	super("clean", "clean output", document)
+	def initialize(document, root)
+    	super("clean", "clean output", document, root)
 	end
   
 	def run()

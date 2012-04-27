@@ -32,6 +32,6 @@ reference.keys[:content] = :footer
 reference.tags = [ :reference ]
 document.childs << reference
 
-RDox.new(document)
+RDox.new(document, File.dirname(__FILE__))
 
 	

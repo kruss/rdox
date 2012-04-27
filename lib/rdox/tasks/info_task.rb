@@ -2,14 +2,14 @@ require "rdox/rdox"
 
 class InfoTask < AbstractTask
   
-	def initialize(document)
-    	super("info", "print info (details=[none]|tags|verbose)", document, [ :details ])
+	def initialize(document, root)
+    	super("info", "print info (mode=[none]|tags|details)", document, root, [ :mode ])
 	end
   
 	def run()
-		@show_tags = @args.details != nil && @args.details.eql?("tags") ? true : false
-		@show_description = @args.details != nil && @args.details.eql?("verbose") ? true : false
-		
+		@show_tags = @args.mode != nil && @args.mode.eql?("tags") ? true : false
+		@show_details = @args.mode != nil && @args.mode.eql?("details") ? true : false
+
 		dump(@document, 0)
 	end
   
@@ -24,8 +24,7 @@ private
 		end
 		if @show_tags && element.tags.size > 0 then
 			info << " => #{element.tags.join(", ")}"
-		end
-		if @show_description && element.description != nil then
+		elsif @show_details && element.description != nil then
 			info << " #{element.description}"
 		end
 		if element.root? then

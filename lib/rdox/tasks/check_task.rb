@@ -2,8 +2,8 @@ require "rdox/rdox"
 
 class CheckTask < AbstractTask
   
-	def initialize(document)
-    	super("check", "check sources", document)
+	def initialize(document, root)
+    	super("check", "check sources", document, root)
 	end
   
 	def run()

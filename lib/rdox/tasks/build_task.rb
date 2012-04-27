@@ -2,8 +2,8 @@ require "rdox/rdox"
 
 class BuildTask < AbstractTask
   
-	def initialize(document)
-    	super("build", "build document (mode=[debug]|release)", document, [ :mode ])
+	def initialize(document, root)
+    	super("build", "build document (mode=[debug]|release)", document, root, [ :mode ])
 	end
   
 	def run()		

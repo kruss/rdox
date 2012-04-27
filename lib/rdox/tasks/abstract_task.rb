@@ -3,10 +3,11 @@ require "rdox/rdox"
 class AbstractTask
   include Rake::DSL if defined?(Rake::DSL)
   
-  def initialize(name, description, document, options = nil)
+  def initialize(name, description, document, root, options = nil)
     @name = name
     @description = description
     @document = document
+    @root = root
     @options = options
     @args = nil
   end
@@ -15,28 +16,31 @@ class AbstractTask
       desc @description
       if @options == nil then
 	      task @name do |t|
-			info()
-	        run()
+			run_task()
 	      end
       else
  	      task @name, @options do |t, args|
  	        @args = args
-			info()
-	        run()
+			run_task()
 	      end     
       end
   end
+	
+private
+
+	def run_task()
+		if @description != nil then
+			puts "=> #{@name}"
+		end  
+		cd @root do
+        	run()
+        end	
+	end
   
 protected
-
-  def info()
-  	if @description != nil then
-  		puts "=> #{@name}"
-  	end  
-  end
   
-  def run()
-    raise NotImplementedError.new()
-  end
+	def run()
+		raise NotImplementedError.new()
+	end
 
 end
