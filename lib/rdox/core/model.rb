@@ -14,9 +14,7 @@ class Element
 			@keys[:author] = options[:author]
 		end		
 		
-		if root? then
-			@tags = [ :all ]		
-		elsif options[:tags] != nil then
+		if options[:tags] != nil then
 			@tags = options[:tags]
 		else
 			@tags = Array.new
@@ -88,6 +86,9 @@ class Element
 	end
 	
 	def pack()
+		if root? then
+			@tags = [ :all ]		
+		end
 		childs.each do |child|
 			tags.each do |tag|
 				if !child.tags.include?(tag) then
