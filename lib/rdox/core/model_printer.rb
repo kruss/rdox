@@ -8,12 +8,16 @@ class ModelPrinter
 	
 	def print(mode = :none)
 		@mode = mode
-		print_element(@document, 0)
+		print_element(@document)
+		
+		# TODO temp
+		serializer = ModelSerializer.new(@document)
+		serializer.serialize("backup.rdox")
 	end
 	
 private
 
-	def print_element(element, level)
+	def print_element(element)
 		info = ""
 		if element.root? then
 			info << "[ #{element.name} ]"
@@ -29,13 +33,13 @@ private
 			puts "#{info}"
 		else
 			intent = ""
-			for i in 1..level do
+			for i in 1..element.level do
 				intent << "  |"
 			end
 			puts "#{intent}- #{info}"
 		end
 		element.childs.each do |child|
-			print_element(child, level+1)
+			print_element(child)
 		end
 	end
 	

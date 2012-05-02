@@ -1,42 +1,60 @@
 require "rdox/rdox"
 
-document = Document.new("rdox Tutorial", 
-	:description => "Rake based document management", 
-	:author => "Kevin Russ"
-)
-
-document.childs << Page.new("Overview", 
-	:description => "What is rdox",
-	:tags => [ :basics ]
-)
-
-document.childs << Page.new("Concepts", 
-	:description => "How does rdox work",
-	:tags => [ :advanced ]
+root = Page.new(
+	:author => "Kevin Russ",
+	:description => "Rake based document management",
+	:name => "rdox Tutorial"
 ) do |page|
-	page.childs << Page.new("Layout")
-	page.childs << Page.new("Tasks") do |page|
-		page.childs << Page.new("Info-Task")
-		page.childs << Page.new("Clean-Task")
-		page.childs << Page.new("Check-Task")
-		page.childs << Page.new("Build-Task")
+	page.childs << Page.new(
+		:description => "What is rdox",
+		:name => "Overview",
+		:tags => [:basics]
+	)
+	page.childs << Page.new(
+		:description => "How does rdox work",
+		:name => "Concepts",
+		:tags => [:advanced]
+	) do |page|
+		page.childs << Page.new(
+			:name => "Layout"
+		)
+		page.childs << Page.new(
+			:name => "Tasks"
+		) do |page|
+			page.childs << Page.new(
+				:name => "Info-Task"
+			)
+			page.childs << Page.new(
+				:name => "Clean-Task"
+			)
+			page.childs << Page.new(
+				:name => "Check-Task"
+			)
+			page.childs << Page.new(
+				:name => "Build-Task"
+			)
+		end
+		page.childs << Page.new(
+			:name => "Tags"
+		)
 	end
-	page.childs << Page.new("Tags")
+	page.childs << Page.new(
+		:description => "Using the rdox wizard",
+		:name => "Example",
+		:tags => [:basics]
+	)
+	page.childs << Page.new(
+		:description => "rdox Reference",
+		:name => "Reference",
+		:tags => [:advanced, :todo]
+	) do |page|
+		page.childs << Page.new(
+			:name => "Setup"
+		)
+		page.childs << Page.new(
+			:name => "Commands"
+		)
+	end
 end
 
-document.childs << Page.new("Example", 
-	:description => "Using the rdox wizard",
-	:tags => [ :basics ]
-)
-
-document.childs << Page.new("Reference", 
-	:description => "rdox Reference",
-	:tags => [ :advanced, :todo ]
-) do |page|
-	page.childs << Page.new("Setup")
-	page.childs << Page.new("Commands")
-end
-
-RDox.new(document, File.dirname(__FILE__))
-
-	
+RDox.new(root, File.dirname(__FILE__))

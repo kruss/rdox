@@ -1,23 +1,13 @@
 
-class Element 
+class Page 
 
-	def initialize(name, options, &block)
+	def initialize(options, &block)
 		@parent = nil
 		@childs = Array.new
-		
-		@keys = Hash.new
-		@keys[:name] = name
-		if options[:description] != nil then
-			@keys[:description] = options[:description]
-		end
-		if options[:author] != nil then
-			@keys[:author] = options[:author]
-		end		
-		
-		if options[:tags] != nil then
-			@tags = options[:tags]
-		else
-			@tags = Array.new
+
+		@options = options
+		if @options[:name] == nil then
+			raise "!!! missing name !!!"
 		end
 		
 		if block != nil then
@@ -26,23 +16,26 @@ class Element
 	end
 	attr_accessor :parent
 	attr_accessor :childs
-	attr_accessor :keys
-	attr_accessor :tags
+	attr_accessor :options
 	
 	def name
-		return @keys[:name]
+		return @options[:name]
 	end
 	
 	def description
-		return @keys[:description]
+		return get_option(:description)
 	end
 	
 	def author
-		return @keys[:author]
+		return get_option(:author)
+	end
+	
+	def tags
+		return get_option_values(:tags) << :all
 	end
 	
 	def todo?
-		return @tags.include[:todo]
+		return tags.include[:todo]
 	end
 	
 	def root?()
@@ -86,38 +79,43 @@ class Element
 	end
 	
 	def pack()
-		if root? then
-			@tags = [ :all ]		
-		end
-		childs.each do |child|
-			tags.each do |tag|
-				if !child.tags.include?(tag) then
-					child.tags << tag
-				end
-			end
-			child.tags = child.tags.sort_by { |tag| tag.to_s }
-			keys.keys.each do |key|
-				if keys[key] != nil && child.keys[key] == nil then
-			 		child.keys[key] = keys[key]
-				end
-			end
+		@childs.each do |child|
 			child.parent = self
 			child.pack()
 		end
 	end
 	
-end
+protected
 
-class Document < Element
-
-	def initialize(name, options = {})
-		super(name, options)
+	def get_option(key)
+		if @options[key] != nil then
+			return @options[key]
+		elsif @parent != nil then
+			return @parent.get_option(key)
+		else
+			return nil
+		end
 	end
-end
-
-class Page < Element
-
-	def initialize(name, options = {})
-		super(name, options)
+	
+	def get_option_values(key)
+		values = Array.new
+		collect_option_values(self, values, key)
+		parent = @parent
+		while parent != nil do
+			collect_option_values(parent, values, key)
+			parent = parent.parent
+		end	
+		return values
 	end
+	
+	def collect_option_values(element, values, key)
+		if element.options[key] != nil then
+			element.options[key].each do |value|
+					if !values.include?(value) then
+						values << value
+					end				
+			end
+		end
+	end
+	
 end
