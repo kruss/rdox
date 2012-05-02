@@ -7,11 +7,12 @@ class CleanTask < AbstractTask
 	end
   
 	def run()
+		puts "clean: #{$SOURCE}/"
 		files = FileList.new("#{$SOURCE}/**/*.html")
 		files.each do |file|
-			puts "remove: #{file}"
 			FileUtils.rm_rf(file)
 		end
+		puts "removed: #{files.size} files"
 	end
   
 end

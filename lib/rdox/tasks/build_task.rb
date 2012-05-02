@@ -35,9 +35,7 @@ private
 	end
 	
 	def build_sources(date, folder)
-	    ContentBuilder.new(date, folder).build(@document)
-	    MapBuilder.new(date, folder).build(@document)	
-	    PrintBuilder.new(date, folder).build(@document)
+	    PlainBuilder.new(date, folder).build(@document)
 	end
   
 end
