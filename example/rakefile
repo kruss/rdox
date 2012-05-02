@@ -4,54 +4,54 @@ root = Page.new(
 	:author => "Kevin Russ",
 	:description => "Rake based document management",
 	:name => "rdox Tutorial"
-) do |page|
-	page.childs << Page.new(
+) do 
+	self.childs << Page.new(
 		:description => "What is rdox",
 		:name => "Overview",
 		:tags => [:basics]
 	)
-	page.childs << Page.new(
+	self.childs << Page.new(
 		:description => "How does rdox work",
 		:name => "Concepts",
 		:tags => [:advanced]
-	) do |page|
-		page.childs << Page.new(
+	) do 
+		self.childs << Page.new(
 			:name => "Layout"
 		)
-		page.childs << Page.new(
+		self.childs << Page.new(
 			:name => "Tasks"
-		) do |page|
-			page.childs << Page.new(
+		) do 
+			self.childs << Page.new(
 				:name => "Info-Task"
 			)
-			page.childs << Page.new(
+			self.childs << Page.new(
 				:name => "Clean-Task"
 			)
-			page.childs << Page.new(
+			self.childs << Page.new(
 				:name => "Check-Task"
 			)
-			page.childs << Page.new(
+			self.childs << Page.new(
 				:name => "Build-Task"
 			)
 		end
-		page.childs << Page.new(
+		self.childs << Page.new(
 			:name => "Tags"
 		)
 	end
-	page.childs << Page.new(
+	self.childs << Page.new(
 		:description => "Using the rdox wizard",
 		:name => "Example",
 		:tags => [:basics]
 	)
-	page.childs << Page.new(
+	self.childs << Page.new(
 		:description => "rdox Reference",
 		:name => "Reference",
 		:tags => [:advanced, :todo]
-	) do |page|
-		page.childs << Page.new(
+	) do 
+		self.childs << Page.new(
 			:name => "Setup"
 		)
-		page.childs << Page.new(
+		self.childs << Page.new(
 			:name => "Commands"
 		)
 	end

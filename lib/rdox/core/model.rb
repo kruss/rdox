@@ -6,9 +6,7 @@ class Page
 		@childs = Array.new
 		@options = options
 		
-		if block != nil then
-			block.call(self)
-		end
+		instance_eval &block if block_given?
 	end
 	attr_accessor :parent
 	attr_accessor :childs
