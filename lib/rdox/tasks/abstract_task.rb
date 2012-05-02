@@ -29,9 +29,7 @@ class AbstractTask
 private
 
 	def run_task()
-		if @description != nil then
-			puts "=> #{@name}"
-		end  
+		puts "=> #{@name}"
 		cd @root do
         	run()
         end	
