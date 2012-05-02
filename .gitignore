@@ -1,4 +1,4 @@
 pkg/rdox-0.1.0
 example/src
-example/out
+example/release*
 works
