@@ -46,27 +46,28 @@ private
 	end
 	
 	def write_title(output, element)  
-		output.write("<table width=100% border=0 cellspacing=0 cellpadding=0>\r\n")
-		if element.root? then
-			links = [ 
-				"<a href='map.html'>Map</a>", 
-				"<a href='print.html' target=_blank>Print</a>" 
-			]
-			output.write("<tr><td align=right>\r\n")
-			output.write("#{links.join(" | ")}\r\n")
-			output.write("</td></tr>\r\n")
-		else
+		output.write("<table width=100% border=0 cellspacing=0 cellpadding=0><tr>\r\n")
+		if !element.root? then
 			links = Array.new
 			parent = element.parent
 			while parent != nil do
 				links << "<a href='#{back_link(element)}#{parent.id}/index.html'>#{parent.name}</a>"
 				parent = parent.parent
 			end
-			output.write("<tr><td align=left>\r\n")
+			output.write("<td align=left>\r\n")
 			output.write("#{links.reverse.join(" &lt; ")}\r\n")
-			output.write("</td></tr>\r\n")
+			output.write("</td>\r\n")
+		else
+			output.write("<td>&nbsp;</td>")
 		end
-		output.write("</table><hr>\r\n")
+		links = [ 
+			"<a href='#{back_link(element)}map.html'>Map</a>", 
+			"<a href='print.html' target=_blank>Print</a>" 
+		]
+		output.write("<td align=right>\r\n")
+		output.write("#{links.join(" | ")}\r\n")
+		output.write("</td>\r\n")
+		output.write("</tr></table><hr>\r\n")
 		output.write("<h1>#{element.index} #{element.name}</h1>\r\n") 
 		if element.description != nil then
 			output.write("<i>#{element.description}</i>\r\n") 
