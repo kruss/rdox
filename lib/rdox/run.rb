@@ -1,10 +1,8 @@
 require "rdox/rdox"
 require "rdox/commands/abstract_command"
-require "rdox/commands/help_command"
 require "rdox/commands/init_command"
 
 @commands = Array.new
-@commands << HelpCommand.new()
 @commands << InitCommand.new()
 
 def get_command(name)
@@ -16,17 +14,14 @@ def get_command(name)
     return nil
 end
 
-def print_help()
-	puts "=> commands"
+puts "\n\t>>> #{$GEM} (#{$VERSION}) build #{$DATE} <<<\n\n"
+if ARGV[0] == nil then
+	puts $HELP
+	puts "\n=> commands\n"
 	@commands.each do |command|
 		command.init()
 		command.help()
 	end	
-end
-
-puts "\n\t>>> #{$GEM} (#{$VERSION}) build #{$DATE} <<<\n\n"
-if ARGV[0] == nil then
-	print_help()
 else
 	command = get_command(ARGV[0]) 
 	if command != nil then
@@ -34,7 +29,7 @@ else
 		command.run()
 		exit(0)	
 	else
-		puts "=> unknown command"
+		puts "=> unknown command !!!"
 	end
 end
 exit(-1)
