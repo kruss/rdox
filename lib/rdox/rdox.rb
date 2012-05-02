@@ -12,22 +12,11 @@ require "rdox/builder/abstract_builder"
 require "rdox/builder/content_builder"
 require "rdox/builder/map_builder"
 require "rdox/builder/print_builder"
+require "rdox/commands/abstract_command"
+require "rdox/commands/create_command"
+require "rdox/wizards/abstract_wizard"
+require "rdox/wizards/create_wizard"
+require "rdox/rdox_rake"
+require "rdox/rdox_gem"
 
 $SOURCE = "src"
-
-class RDox
-	include Rake::DSL if defined?(Rake::DSL)
-
-	def initialize(document, root)
-		document.pack()
-		
-	    info = InfoTask.new(document, root).init()
-	    task :default => info.name 
-	    
-	    clean = CleanTask.new(document, root).init()
-	    check = CheckTask.new(document, root).init()
-	    
-	    build = BuildTask.new(document, root).init()
-	    task build.name => [ info.name, clean.name, check.name ] 
-	end
-end

@@ -9,10 +9,6 @@ class ModelPrinter
 	def print(mode = :none)
 		@mode = mode
 		print_element(@document)
-		
-		# TODO temp
-		serializer = ModelSerializer.new(@document)
-		serializer.serialize("backup.rdox")
 	end
 	
 private

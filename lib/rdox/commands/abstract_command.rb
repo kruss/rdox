@@ -14,9 +14,9 @@ class AbstractCommand
 		OptionParser.new do |parser|
 			@parser = parser
 			if @description != nil then
-				@parser.banner = "+ #{@name} -> #{@description}"
+				@parser.banner = "#{@name} -> #{@description}"
 			else
-				@parser.banner = "+ #{@name}"
+				@parser.banner = "#{@name}"
 			end
 			init_options()
 			@parser.parse!

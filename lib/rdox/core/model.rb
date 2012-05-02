@@ -4,11 +4,7 @@ class Page
 	def initialize(options, &block)
 		@parent = nil
 		@childs = Array.new
-
 		@options = options
-		if @options[:name] == nil then
-			raise "!!! missing name !!!"
-		end
 		
 		if block != nil then
 			block.call(self)
@@ -19,7 +15,7 @@ class Page
 	attr_accessor :options
 	
 	def name
-		return @options[:name]
+		return @options[:name] != nil ? @options[:name] : "UNDEFINED"
 	end
 	
 	def description

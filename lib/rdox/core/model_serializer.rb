@@ -7,7 +7,7 @@ class ModelSerializer
 	end
 	
 	def serialize(file)
-		puts "serialize: #{file}"
+		puts "=> serialize: #{file}"
 		if !File.directory?(File.dirname(file)) then
 	  		FileUtils.mkdir_p(File.dirname(file))
 	  	end
