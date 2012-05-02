@@ -4,7 +4,7 @@ root = Page.new(
 	:author => "Kevin Russ",
 	:description => "Rake based document management",
 	:name => "rdox Tutorial"
-) do 
+){ 
 	self.childs << Page.new(
 		:description => "What is rdox",
 		:name => "Overview",
@@ -14,13 +14,13 @@ root = Page.new(
 		:description => "How does rdox work",
 		:name => "Concepts",
 		:tags => [:advanced]
-	) do 
+	){ 
 		self.childs << Page.new(
 			:name => "Layout"
 		)
 		self.childs << Page.new(
 			:name => "Tasks"
-		) do 
+		){ 
 			self.childs << Page.new(
 				:name => "Info-Task"
 			)
@@ -33,11 +33,11 @@ root = Page.new(
 			self.childs << Page.new(
 				:name => "Build-Task"
 			)
-		end
+		}
 		self.childs << Page.new(
 			:name => "Tags"
 		)
-	end
+	}
 	self.childs << Page.new(
 		:description => "Using the rdox wizard",
 		:name => "Example",
@@ -47,14 +47,14 @@ root = Page.new(
 		:description => "rdox Reference",
 		:name => "Reference",
 		:tags => [:advanced, :todo]
-	) do 
+	){ 
 		self.childs << Page.new(
 			:name => "Setup"
 		)
 		self.childs << Page.new(
 			:name => "Commands"
 		)
-	end
-end
+	}
+}
 
 RDox.new(root, File.dirname(__FILE__))

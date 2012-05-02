@@ -25,7 +25,7 @@ private
 		if element.level == 0 then
 			serialized << "root = Page.new("
 		else
-			serialized << "page.childs << Page.new("
+			serialized << "self.childs << Page.new("
 		end
 		if element.options.keys.size > 0 then
 			serialized << "\r\n#{intent(element)}"
@@ -43,11 +43,11 @@ private
 		end
 		serialized << "\r\n#{intent(element)})"
 		if element.childs? then
-			serialized << " do |page|"
+			serialized << "{"
 			element.childs.each do |child|
 				serialize_element(child, serialized)
 			end
-			serialized << "\r\n#{intent(element)}end"
+			serialized << "\r\n#{intent(element)}}"
 		end
 		return serialized
 	end
